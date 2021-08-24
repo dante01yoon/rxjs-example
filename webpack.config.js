@@ -9,6 +9,24 @@ module.exports = {
     filename: "bundle.js",
     clean: true,
   },
-  plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" })],
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+        }
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({ template: "./src/index.html" }),
+  ],
   mode: "development",
+  resolve: {
+    extensions: [
+      "", ".js", ".jsx"
+    ]
+  },
 }
