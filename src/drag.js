@@ -1,5 +1,5 @@
 import { fromEvent, switchMap, takeUntil } from "rxjs";
-
+import { map } from "rxjs/operators"
 const $view = document.getElementById("carousel");
 const $container = $view.querySelector(".container");
 const PANEL_COUNT = $container.querySelectorAll(".panel").length;
@@ -30,5 +30,17 @@ const move$ = fromEvent($view, EVENTS.move)
 const end$ = fromEvent($view, EVENTS.end);
 
 const drag$ = start$.pipe(
-  switchMap(start => move$.pipe(takeUntil(end$))),
+  switchMap(start => {
+    return move$.pipe(
+      map(move => move - start),
+      takeUntil(end$)
+    )
+  })
 );
+
+export {
+  start$,
+  move$,
+  end$,
+  drag$,
+}
